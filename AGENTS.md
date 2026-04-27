@@ -62,3 +62,78 @@ These rules are not suggestions. Violating them is a defect.
 - One logical change per commit. Squash WIP commits before opening a PR.
 
 ---
+
+## 4. What agents do well here, and what they don't
+
+To use AI effectively on this project, the division of labor is documented in `/docs/pm_approach.md`. Short version:
+
+**Agents are encouraged to do:**
+- Generate boilerplate: DTOs, mappers, controllers, repository methods, basic CRUD scaffolding.
+- Write unit tests for existing service methods.
+- Write JSDoc / JavaDoc for documented public APIs.
+- Translate i18n keys into Russian and Latvian (the human reviews for nuance).
+- Suggest refactorings within a single file or composable.
+- Draft documentation pages from existing code.
+
+**Agents should NOT do without explicit human direction:**
+- Make architectural choices (new modules, new layers, new patterns).
+- Design the database schema or modify entity relationships.
+- Write authentication / authorization logic.
+- Decide what the achievement / gamification rules are (this is product logic, not code).
+- Tune performance or add caching.
+- Write or edit ADRs (`/docs/decisions/`) — these are human-authored records.
+
+---
+
+## 5. Where to find context (read these first)
+
+- Project README — `README.md`
+- Project management approach — `docs/pm_approach.md`
+- MVP roadmap — `docs/plans/ROADMAP_MVP.md`
+- Architecture (when written) — `docs/architecture/`
+- Architectural Decision Records — `docs/decisions/`
+- API specification — `docs/api/`
+- Database schema — `docs/architecture/database.md`
+- Coding conventions detail — `docs/conventions/`
+
+If a task touches an area where the doc does not exist yet, **say so explicitly in your response** before writing code.
+
+---
+
+## 6. Default agent workflow
+
+When given a task in this repository, an agent should:
+
+1. **Locate the task** in `/docs/plans/ROADMAP_MVP.md` if possible. Identify which sprint/epic it belongs to.
+2. **Read related docs** under `/docs/` — at minimum the architecture or convention doc covering the affected layer.
+3. **Search the codebase** for existing patterns. Match them. Do not introduce new patterns unilaterally.
+4. **Propose a plan** before generating code if the change touches more than one file or layer.
+5. **Generate code** following the style rules in section 3.
+6. **Generate tests** for new logic. Coverage target: 70%+ on services, 50%+ overall.
+7. **Update docs** if the change affects an API, schema, or convention.
+
+---
+
+## 7. Escalate when uncertain
+
+Stop and ask before proceeding if:
+
+- The required behavior is not specified in the issue or in `/docs/`.
+- A change would touch authentication, authorization, or financial / sensitive data flow.
+- A change would require modifying a merged Flyway migration or a public API contract.
+- A new external library is needed.
+- The task seems to require a product decision (e.g., "what should the achievement threshold be?").
+
+A good question is always cheaper than a wrong implementation.
+
+---
+
+## 8. Repository conventions (locked)
+
+- **Internal links in docs:** Markdown relative links (GitHub-native).
+- **Code line endings:** LF, enforced via `.gitattributes`.
+- **Date format:** ISO 8601 (`YYYY-MM-DD`).
+- **File naming for docs:** lowercase, kebab-case, no spaces.
+- **Language of all docs and code comments:** English.
+
+---
