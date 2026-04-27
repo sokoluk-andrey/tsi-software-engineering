@@ -57,18 +57,7 @@ The MVP is intentionally **vertical**: every layer (frontend, backend, DB, auth,
 
 ---
 
-## 3. Operating principles
-
-- **Vertical slices over horizontal layers.** Ship one feature end-to-end before starting the next.
-- **One ADR per architectural choice.** No silent decisions.
-- **Tests written alongside code, not after.** Especially for services and the achievement engine.
-- **No feature without i18n.** New strings are added to all three locales in the same PR.
-- **Migrations are forward-only.** Once merged, a migration is never edited; corrections are new migrations.
-- **The roadmap is a living document.** Sprint scope may shift; the vision and out-of-scope list may not, without an ADR.
-
----
-
-## 4. Workstreams (epics)
+## 3. Workstreams
 
 1. **Foundation** — repo setup, CI, auth, base entities.
 2. **Tasks & calendar** — CRUD, calendar view, drag-and-drop.
@@ -80,7 +69,7 @@ The MVP is intentionally **vertical**: every layer (frontend, backend, DB, auth,
 
 ---
 
-## 5. Sprints
+## 4. Sprints
 
 ### Sprint 1 — Foundation
 
@@ -187,70 +176,34 @@ Acceptance: a fresh clone can be brought up locally in under 15 minutes followin
 
 ---
 
-## 6. Success metrics (MVP-level)
+## 5. How I'll know the MVP is good
 
-**M1: Functional completeness**
-- All "in scope" items above are deployed and reachable on staging.
-- A 30-minute end-to-end demo of the product can be performed without the developer touching the IDE.
-
-**M2: Engineering quality**
-- CI is green on `main` for at least the final two sprints.
-- Backend unit + integration test coverage ≥ 70% on services.
-- No `P0` or `P1` bugs open at release.
-
-**M3: Documentation completeness**
+- Everything in the "in scope" list works on staging.
+- I can demo the app end-to-end without touching code.
+- CI has been green on `main` for the last two sprints.
+- Backend test coverage is at least 70% on services.
 - Every architectural choice has an ADR.
-- API is documented via OpenAPI.
-- README walks a new contributor from zero to running in under 15 minutes.
-- Database schema is documented with an ER diagram.
+- The README gets a new person running in 15 minutes.
+- The course report can be put together from existing docs, not written from scratch.
 
-**M4: Process traceability**
-- Every sprint has a goal and a retro note.
-- Every merged PR references an issue.
-- The course report can be assembled by stitching together existing docs, not by writing from scratch.
+## 6. Risks I'm watching
 
----
+- **My day job (Full-Stack developer and Team Lead) eating into my time.** I'll commit to a minimum of 4–6 hours per week and cut scope before the deadline if needed.
+- **Spring Security is more complex than I'm used to.**
+- **Achievement design becoming a rabbit hole.** I lock the 5 rules with an ADR by end of Sprint 4 and move on.
+- **Translations taking too long.** AI does the first draft, I review.
+- **Work-life balance.** If I'm tired, I cut scope, not sleep.
 
-## 7. Definition of Done (per sprint)
+## 7. After the MVP (rough order)
 
-A sprint is Done when:
+- Recurring tasks.
+- Google / Outlook calendar sync.
+- Shared tasks for teams.
+- PWA mobile improvements.
+- AI-assisted task creation.
+- Public API and webhooks.
 
-- All "in" items shipped or explicitly carried over (not silently dropped).
-- All issues closed or moved to next sprint with reason.
-- CI is green on `main`.
-- Demo recording or screenshot exists for the new feature(s).
-
----
-
-## 8. Risks & mitigations
-
-| Risk | Likelihood | Impact | Mitigation |
-|---|---|---|---|
-| Day-job (Team Lead) absorbs more time than expected | High | High | Reserve 4–6 hours/week as a hard floor; cut scope before deadline |
-| Unfamiliar territory in Spring Security at scale | Medium | Medium | Spike experiment in PKM repo before Sprint 2 |
-| Achievement rules creep into product design rabbit hole | Medium | Medium | Lock 5 achievements via ADR by end of Sprint 4 |
-| i18n quality (RU/LV) becomes time sink | Medium | Low | Use AI-assisted draft + native-speaker check (self for RU/LV) |
-| Performance issues surface late | Low | High | Add `p6spy` in dev from Sprint 3; audit hot paths in Sprint 7 |
-| Solo project burnout | Medium | High | Hard cap on hours; weekly retro is honest about exhaustion |
-
----
-
-## 9. Future releases (post-MVP, out of MVP scope)
-
-Roughly ordered by likely value:
-
-- **v0.2 — Recurring tasks.** RRULE-based recurrence, modeled after iCalendar.
-- **v0.3 — External calendar sync.** Two-way sync with Google Calendar.
-- **v0.4 — Team workspaces.** Shared task lists, assignment.
-- **v0.5 — Mobile PWA hardening.** Offline support, install prompt, service worker.
-- **v0.6 — AI suggestions.** Natural-language task creation; smart scheduling proposals.
-- **v1.0 — Public API + integrations.** Stable REST + webhook surface.
-
-These are intentionally not detailed here — they exist only to make MVP scope decisions defensible (i.e., "feature X is *deferred*, not *forgotten*").
-
----
-
-## 10. Appendix — key documents
+## 8. Appendix — key documents
 
 - Project README — `../../README.md`
 - AI agent rules — `../../AGENTS.md`
