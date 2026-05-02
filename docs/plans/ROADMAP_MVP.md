@@ -210,3 +210,26 @@ Acceptance: a fresh clone can be brought up locally in under 15 minutes followin
 - Project management — `../pm_approach.md`
 - ADRs — `../decisions/`
 - Architecture — `../architecture/`
+
+
+## Scope adjustments
+
+This section records changes to the original plan and why.
+
+### 2026-05-09 — Achievement engine refactored, dead code found
+
+The original Sprint 5 plan said "wire up 5 achievements." The actual codebase already had 16 achievement definitions, but they were tangled together inside one giant service method. Two changes resulted:
+
+**What changed:**
+- Refactored the existing logic into a Strategy-pattern module instead of building from scratch.
+- All 15 actively checked achievements now have their own rule class.
+- The 16th definition — `consistency` ("Complete tasks for 30 days in a row") — was found to be dead code: defined in `initializeAchievementDefinitions()` but never checked. Removed from active rules; deferred to a future sprint when streak tracking is built properly.
+- `AchievementService` shrank from 392 lines to ~200.
+
+**Why this is a positive change:**
+- Adding a new achievement now means adding one tiny class — no edits to `AchievementService`.
+- The rule logic is now testable without a database.
+- The refactor surfaced a real bug (the dead `consistency` rule) that was invisible in the old structure.
+
+**Risks introduced:**
+- None. The new module replaces logic that was already running in production. Behavior is preserved (verified by tests).
