@@ -216,20 +216,21 @@ Acceptance: a fresh clone can be brought up locally in under 15 minutes followin
 
 This section records changes to the original plan and why.
 
-### 2026-05-09 — Achievement engine refactored, dead code found
-
-The original Sprint 5 plan said "wire up 5 achievements." The actual codebase already had 16 achievement definitions, but they were tangled together inside one giant service method. Two changes resulted:
+The first version of the achievement engine worked but lived as a single 392-line service with all rules hardcoded across 7 private methods. As part of Sprint 5, the rule logic was restructured using the Strategy pattern.
 
 **What changed:**
-- Refactored the existing logic into a Strategy-pattern module instead of building from scratch.
-- All 15 actively checked achievements now have their own rule class.
-- The 16th definition — `consistency` ("Complete tasks for 30 days in a row") — was found to be dead code: defined in `initializeAchievementDefinitions()` but never checked. Removed from active rules; deferred to a future sprint when streak tracking is built properly.
+- All 15 actively-checked achievements now have their own rule class.
 - `AchievementService` shrank from 392 lines to ~200.
+- `TaskService`, `AchievementController`, the DTO, and the frontend remain unchanged.
+- Found a real bug: the `consistency` achievement ("Complete tasks for 30 days in a row") is defined in `initializeAchievementDefinitions()` and listed in the frontend, but no `check*` method was ever calling it. It was dead code — visible to users as a permanently locked achievement. Filed as a follow-up.
 
 **Why this is a positive change:**
-- Adding a new achievement now means adding one tiny class — no edits to `AchievementService`.
-- The rule logic is now testable without a database.
-- The refactor surfaced a real bug (the dead `consistency` rule) that was invisible in the old structure.
+- Adding a new achievement is now a single-class change with no edits to `AchievementService`.
+- Rule logic is testable without spinning up the database.
+- The pure-function checker can be reused later for a "preview my next achievement" feature.
 
 **Risks introduced:**
-- None. The new module replaces logic that was already running in production. Behavior is preserved (verified by tests).
+- None significant. Behavior is preserved (verified by unit tests). The public method signature `checkAndGrantAchievements(User, Task)` did not change, so callers are unaffected.
+
+**Follow-up:**
+- Implement streak tracking properly so the `consistency` achievement can actually unlock. Deferred to post-MVP.
