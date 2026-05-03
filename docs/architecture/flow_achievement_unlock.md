@@ -35,7 +35,7 @@ sequenceDiagram
     AS-->>TS: Done
     TS-->>API: Updated task
     API-->>FE: 200 OK
-    FE-->>User: Show toast for each new achievement
+    FE-->>User: 'achievement-unlocked' event<br/>shows toast (existing flow)
 ```
 
 ## Decision flow inside the checker
@@ -126,4 +126,4 @@ classDiagram
 - Adding a new achievement = a new class. No existing code is touched.
 - Each rule is testable on its own.
 - Spring auto-discovers all `@Component` rules and injects them as a list.
-- See module README at `backend/src/main/java/com/example/demo/service/achievement/README.md` for full rationale.
+- See module README at `AchievementModule/README.md` for full rationale.
