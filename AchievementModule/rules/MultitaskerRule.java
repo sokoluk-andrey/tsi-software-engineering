@@ -1,5 +1,5 @@
-import com.example.demo.service.achievement.AchievementRule;
-import com.example.demo.service.achievement.UserStats;
+import AchievementModule.AchievementRule;
+import AchievementModule.UserStats;
 import org.springframework.stereotype.Component;
 
 @Component
